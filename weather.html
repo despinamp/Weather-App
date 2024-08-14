@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <script src="weathercode.js"></script>
+    <link rel="stylesheet" href="weathestyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <h1 id="title">Weather App</h1>
+    <h2 id="subtitle">Find weather info for a location of your choice!</h2>
+
+    <form>
+        <input id='location' type='text' placeholder='Search for a location...' required>
+        <input id='submitlocation' type='submit' value='Search'>
+    </form>
+    <div id="errormessage"></div>
+    <div>
+        <button id="celsius">Celsius</button>
+        <button id="farenheit">Farenheit</button>
+
+    </div>
+
+
+    </div>
+
+    <h1 id="resolvedAddress"></h1>
+    <h2 id="fullDate"></h2>
+    <h3>
+        <div class="winfo">
+            <div class="tempcont">
+                <div> <i class="fa-solid fa-temperature-low" style="color: #ffffff;"></i> Temperature: </div>
+                <div id="temp"></div>
+            </div>
+            <div id="conditions"></div>
+            <div class="feelslikecont">
+                <div>Feels like: </div>
+                <div id="feelslike"></div>
+            </div>
+            <div id="descr"></div>
+            <div class="humiditycont">
+                <div> <i class="fa-solid fa-droplet" style="color: #ffffff;"></i></i> Humidity: </div>
+                <div id="humidity"></div>
+            </div>
+            <div class="uvcont">
+                <div> <i class="fa-regular fa-sun" style="color: #ffffff;"></i> UV index: </div>
+                <div id="uv"></div>
+            </div>
+        </div>
+
+
+    </h3>
+</body>
+
+</html>
