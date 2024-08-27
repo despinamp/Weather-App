@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded',function(){
-    let incelsius=true;
+    let incelsius=true; //default degrees are celsius when first visiting app
     let tempval,feelslikeval;
     const monthArr=['January','February','March','April','May','June','July','August','September','October','November','December'];
    
+    //farenheit to celsius
     const ftoc=()=>{
         if (incelsius===false){        
             incelsius=true;           
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded',function(){
         }
     }
 
+    //celsius to farenheit
     const ctof=()=>{        
         if (incelsius===true){
             incelsius=false; 
@@ -32,6 +34,7 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('farenheit').onclick=ctof;
     document.getElementById('celsius').onclick=ftoc; 
 
+    //fetching data from visual crossing api
     const getweatherinfo=(locationvalue)=>{
         url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'?key=FZRM4QGNURRJWUZU2H8CZYKX2'
         
@@ -48,7 +51,8 @@ document.addEventListener('DOMContentLoaded',function(){
             const yearString=dateArr[0];
             const monthString=monthArr[parseInt(dateArr[1])-1];
             const dayInt=parseInt(dateArr[2]);
-            const fullDate=dayInt.toString()+" "+monthString+" "+yearString;        
+            const fullDate=dayInt.toString()+" "+monthString+" "+yearString;
+            //check if we want temp in celsius or farenheit-temp in currentConditions in api json is in farenheit        
             if (incelsius===true){
                 temp=Math.round((temp-32)*5/9);
                 feelslike=Math.round((feelslike-32)*5/9);
