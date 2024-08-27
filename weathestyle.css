@@ -40,7 +40,12 @@
 
 body{
     background-image:url('tobias-keller-HzSLh5zV42s-unsplash.jpg') ;
+    background-repeat: no-repeat;
     background-size:cover;
+    margin: 0px;
+    width: 100 vw;
+    height: 100 vh;
+    overflow: auto;
 }
 
 input[type=text],input[type=submit],button{
