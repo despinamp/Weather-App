@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded',function(){
     let incelsius=true; //default degrees are celsius when first visiting app
     let tempsymbol,unitGroup;
     const monthArr=['January','February','March','April','May','June','July','August','September','October','November','December'];
-   let locationvalue='london'
+   let locationvalue='london';
     //fetching data from visual crossing api
     const getweatherinfo=(locationvalue)=>{
         if (incelsius===true){
@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded',function(){
             tempsymbol='°F';
             unitGroup='us';
         }
-        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'/?'+unitGroup+'&key=FZRM4QGNURRJWUZU2H8CZYKX2'
-        
+        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'/?unitGroup='+unitGroup+'&key=FZRM4QGNURRJWUZU2H8CZYKX2'
+        console.log(url);
         fetch(url)
         .then(response=>{
-            console.log(response.json())
-        return response.json()
+            return response.json()
          })
-        .then(jsonresponse=>{            
+        .then(jsonresponse=>{ 
+            console.log(jsonresponse);           
             let {temp,feelslike,humidity,uvindex,conditions}=jsonresponse.currentConditions; 
             const resolvedAddress=jsonresponse.resolvedAddress;
             const sdate=jsonresponse.days[0].datetime;
@@ -30,10 +30,8 @@ document.addEventListener('DOMContentLoaded',function(){
             const dayInt=parseInt(dateArr[2]);
             const fullDate=dayInt.toString()+" "+monthString+" "+yearString;       
             
-            tempval=temp;
-            feelslikeval=feelslike;     
-            document.getElementById('errormessage').innerHTML='';
-            document.getElementById('fullDate').innerHTML='';
+               
+            document.getElementById('errormessage').innerHTML='';            
             document.getElementById('resolvedAddress').innerHTML=resolvedAddress;            
             document.getElementById('temp').innerHTML=temp+tempsymbol;
             document.getElementById('feelslike').innerHTML=feelslike+tempsymbol;           
@@ -42,10 +40,11 @@ document.addEventListener('DOMContentLoaded',function(){
             document.getElementById('conditions').innerHTML=conditions;  
             document.getElementById('fullDate').innerHTML=fullDate;         
         })    
-        .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!');
+        .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!'+err);
 
     }
   
+    getweatherinfo(locationvalue);
 
     const newlocation=document.getElementById('location');
     document.querySelector('form').onsubmit=()=>{
@@ -53,27 +52,25 @@ document.addEventListener('DOMContentLoaded',function(){
         getweatherinfo(locationvalue);        
         return false;
     }
-});
- //farenheit to celsius
- const ftoc=()=>{
-    if (incelsius===false){        
-        incelsius=true;           
-        getweatherinfo(locationvalue);
-    }
-}
 
-//celsius to farenheit
-const ctof=()=>{        
-    if (incelsius===true){
-        incelsius=false; 
-        getweatherinfo(locationvalue);         
+    //farenheit to celsius
+    const ftoc=()=>{
+        if (incelsius===false){        
+            incelsius=true;           
+            getweatherinfo(locationvalue);
+        }
+    }
+
+    //celsius to farenheit
+    const ctof=()=>{        
+        if (incelsius===true){
+            incelsius=false; 
+            getweatherinfo(locationvalue);         
         
-    }
+        }
 
-}   
-
-document.getElementById('farenheit').onclick=ctof;
-document.getElementById('celsius').onclick=ftoc; 
+    }   
+    document.getElementById('farenheit').onclick=ctof;
+    document.getElementById('celsius').onclick=ftoc; 
     
-
-getweatherinfo(locationvalue);
+});
