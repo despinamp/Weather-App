@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded',function(){
     const ftoc=()=>{
         if (incelsius===false){        
             incelsius=true;           
-            const newtemp=Math.round((tempval-32)*5/9);
-            const newfeelslike=Math.round((feelslikeval-32)*5/9);
+            const newtemp=(tempval-32)*5/9;
+            const newfeelslike=(feelslikeval-32)*5/9;
             tempval=newtemp;
             feelslikeval=newfeelslike;                            
             document.getElementById('temp').innerHTML=newtemp+'°C';
@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded',function(){
     const ctof=()=>{        
         if (incelsius===true){
             incelsius=false; 
-            const newtemp=Math.round((tempval*9/5)+32);
-            const newfeelslike=Math.round((feelslikeval*9/5)+32);
+            const newtemp=(tempval*9/5)+32;
+            const newfeelslike=(feelslikeval*9/5)+32;
             tempval=newtemp;
             feelslikeval=newfeelslike;            
             document.getElementById('temp').innerHTML=newtemp+'°F';
@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded',function(){
             const fullDate=dayInt.toString()+" "+monthString+" "+yearString;
             //check if we want temp in celsius or farenheit-temp in currentConditions in api json is in farenheit        
             if (incelsius===true){
-                temp=Math.round((temp-32)*5/9);
-                feelslike=Math.round((feelslike-32)*5/9);
+                temp=(temp-32)*5/9;
+                feelslike=(feelslike-32)*5/9;
             }
             else{
                 tempsymbol='°F'
