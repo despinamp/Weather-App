@@ -2,9 +2,7 @@ document.addEventListener('DOMContentLoaded',function(){
     let incelsius=true; //default degrees are celsius when first visiting app
     let tempval,feelslikeval,unitGroup;
     const monthArr=['January','February','March','April','May','June','July','August','September','October','November','December'];
-    document.getElementById('farenheit').onclick=ctof;
-    document.getElementById('celsius').onclick=ftoc; 
-
+   let locationvalue='london'
     //fetching data from visual crossing api
     const getweatherinfo=(locationvalue)=>{
         if (incelsius===true){
@@ -14,8 +12,8 @@ document.addEventListener('DOMContentLoaded',function(){
             tempsymbol='°F';
             unitGroup='us';
         }
-        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'/?unitGroup='+unitGroup+'&key=FZRM4QGNURRJWUZU2H8CZYKX2';
-        console.log(url);
+        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'/?'+unitGroup+'&key=FZRM4QGNURRJWUZU2H8CZYKX2'
+        
         fetch(url)
         .then(response=>{
         return response.json()
@@ -47,15 +45,35 @@ document.addEventListener('DOMContentLoaded',function(){
         .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!');
 
     }
-    getweatherinfo('london');
+    getweatherinfo(locationvalue);
 
     const newlocation=document.getElementById('location');
     document.querySelector('form').onsubmit=()=>{
-        const locationvalue=newlocation.value;     
+        locationvalue=newlocation.value;     
         getweatherinfo(locationvalue);        
         return false;
     }
 });
+ //farenheit to celsius
+ const ftoc=()=>{
+    if (incelsius===false){        
+        incelsius=true;           
+        getweatherinfo(locationvalue);
+    }
+}
+
+//celsius to farenheit
+const ctof=()=>{        
+    if (incelsius===true){
+        incelsius=false; 
+        getweatherinfo(locationvalue);         
+        
+    }
+
+}   
+
+document.getElementById('farenheit').onclick=ctof;
+document.getElementById('celsius').onclick=ftoc; 
     
 
     
