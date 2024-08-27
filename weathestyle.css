@@ -91,4 +91,7 @@ input[type=submit]:hover {
     ::placeholder{
         font-size: 15px;
     }
+    #submitlocation{
+        width:20%
+    }
 }
