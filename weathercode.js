@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded',function(){
             tempsymbol='°F';
             unitGroup='us';
         }
-        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'/?'+unitGroup+'&key=FZRM4QGNURRJWUZU2H8CZYKX2'
+        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'/?unitGroup='+unitGroup+'&key=FZRM4QGNURRJWUZU2H8CZYKX2'
         
         fetch(url)
         .then(response=>{
