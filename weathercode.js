@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded',function(){
     let incelsius=true; //default degrees are celsius when first visiting app
-    let tempval,feelslikeval,unitGroup;
+    let tempsymbol,unitGroup;
     const monthArr=['January','February','March','April','May','June','July','August','September','October','November','December'];
    let locationvalue='london'
     //fetching data from visual crossing api
     const getweatherinfo=(locationvalue)=>{
         if (incelsius===true){
+            tempsymbol='°C'
             unitGroup='metric'; //unitGroup parameter available in url, metric returns temp in celsius, us in farenheit
         }
         else{
@@ -16,10 +17,10 @@ document.addEventListener('DOMContentLoaded',function(){
         
         fetch(url)
         .then(response=>{
+            console.log(response.json())
         return response.json()
          })
-        .then(jsonresponse=>{
-            let tempsymbol='°C'
+        .then(jsonresponse=>{            
             let {temp,feelslike,humidity,uvindex,conditions}=jsonresponse.currentConditions; 
             const resolvedAddress=jsonresponse.resolvedAddress;
             const sdate=jsonresponse.days[0].datetime;
@@ -27,8 +28,7 @@ document.addEventListener('DOMContentLoaded',function(){
             const yearString=dateArr[0];
             const monthString=monthArr[parseInt(dateArr[1])-1];
             const dayInt=parseInt(dateArr[2]);
-            const fullDate=dayInt.toString()+" "+monthString+" "+yearString;
-            
+            const fullDate=dayInt.toString()+" "+monthString+" "+yearString;       
             
             tempval=temp;
             feelslikeval=feelslike;     
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded',function(){
         .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!');
 
     }
-    getweatherinfo(locationvalue);
+  
 
     const newlocation=document.getElementById('location');
     document.querySelector('form').onsubmit=()=>{
@@ -76,5 +76,4 @@ document.getElementById('farenheit').onclick=ctof;
 document.getElementById('celsius').onclick=ftoc; 
     
 
-    
-
+getweatherinfo(locationvalue);
