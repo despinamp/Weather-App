@@ -1,49 +1,26 @@
 document.addEventListener('DOMContentLoaded',function(){
     let incelsius=true; //default degrees are celsius when first visiting app
-    let tempval,feelslikeval;
+    let tempsymbol,unitGroup;
     const monthArr=['January','February','March','April','May','June','July','August','September','October','November','December'];
-   
-    //farenheit to celsius
-    const ftoc=()=>{
-        if (incelsius===false){        
-            incelsius=true;           
-            const newtemp=Math.round((tempval-32)*5/9);
-            const newfeelslike=Math.round((feelslikeval-32)*5/9);
-            tempval=newtemp;
-            feelslikeval=newfeelslike;                            
-            document.getElementById('temp').innerHTML=newtemp+'°C';
-            document.getElementById('feelslike').innerHTML=newfeelslike+'°C';
-        }
-    }
-
-    //celsius to farenheit
-    const ctof=()=>{        
-        if (incelsius===true){
-            incelsius=false; 
-            const newtemp=Math.round((tempval*9/5)+32);
-            const newfeelslike=Math.round((feelslikeval*9/5)+32);
-            tempval=newtemp;
-            feelslikeval=newfeelslike;            
-            document.getElementById('temp').innerHTML=newtemp+'°F';
-            document.getElementById('feelslike').innerHTML=newfeelslike+'°F';         
-            
-        }
-
-    }   
-
-    document.getElementById('farenheit').onclick=ctof;
-    document.getElementById('celsius').onclick=ftoc; 
-
+   let locationvalue='london';
     //fetching data from visual crossing api
     const getweatherinfo=(locationvalue)=>{
-        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'?key=FZRM4QGNURRJWUZU2H8CZYKX2'
-        
+        if (incelsius===true){
+            tempsymbol='°C'
+            unitGroup='metric'; //unitGroup parameter available in url, metric returns temp in celsius, us in farenheit
+        }
+        else{
+            tempsymbol='°F';
+            unitGroup='us';
+        }
+        url='https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+locationvalue+'/?unitGroup='+unitGroup+'&key=FZRM4QGNURRJWUZU2H8CZYKX2'
+        console.log(url);
         fetch(url)
         .then(response=>{
-        return response.json()
+            return response.json()
          })
-        .then(jsonresponse=>{
-            let tempsymbol='°C'
+        .then(jsonresponse=>{ 
+            console.log(jsonresponse);           
             let {temp,feelslike,humidity,uvindex,conditions}=jsonresponse.currentConditions; 
             const resolvedAddress=jsonresponse.resolvedAddress;
             const sdate=jsonresponse.days[0].datetime;
@@ -51,21 +28,10 @@ document.addEventListener('DOMContentLoaded',function(){
             const yearString=dateArr[0];
             const monthString=monthArr[parseInt(dateArr[1])-1];
             const dayInt=parseInt(dateArr[2]);
-            const fullDate=dayInt.toString()+" "+monthString+" "+yearString;
-            //check if we want temp in celsius or farenheit-temp in currentConditions in api json is in farenheit        
-            if (incelsius===true){
-                temp=Math.round((temp-32)*5/9);
-                feelslike=Math.round((feelslike-32)*5/9);
-            }
-            else{
-                temp=Math.round(temp);
-                feelslike=Math.round(temp);
-                tempsymbol='°F'
-            }
-            tempval=temp;
-            feelslikeval=feelslike;     
-            document.getElementById('errormessage').innerHTML='';
-            document.getElementById('fullDate').innerHTML='';
+            const fullDate=dayInt.toString()+" "+monthString+" "+yearString;       
+            
+               
+            document.getElementById('errormessage').innerHTML='';            
             document.getElementById('resolvedAddress').innerHTML=resolvedAddress;            
             document.getElementById('temp').innerHTML=temp+tempsymbol;
             document.getElementById('feelslike').innerHTML=feelslike+tempsymbol;           
@@ -74,18 +40,37 @@ document.addEventListener('DOMContentLoaded',function(){
             document.getElementById('conditions').innerHTML=conditions;  
             document.getElementById('fullDate').innerHTML=fullDate;         
         })    
-        .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!');
+        .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!'+err);
 
     }
-    getweatherinfo('london');
+  
+    getweatherinfo(locationvalue);
 
     const newlocation=document.getElementById('location');
     document.querySelector('form').onsubmit=()=>{
-        const locationvalue=newlocation.value;     
+        locationvalue=newlocation.value;     
         getweatherinfo(locationvalue);        
         return false;
     }
-});
-    
 
+    //farenheit to celsius
+    const ftoc=()=>{
+        if (incelsius===false){        
+            incelsius=true;           
+            getweatherinfo(locationvalue);
+        }
+    }
+
+    //celsius to farenheit
+    const ctof=()=>{        
+        if (incelsius===true){
+            incelsius=false; 
+            getweatherinfo(locationvalue);         
+        
+        }
+
+    }   
+    document.getElementById('farenheit').onclick=ctof;
+    document.getElementById('celsius').onclick=ftoc; 
     
+});
