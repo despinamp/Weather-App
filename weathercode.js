@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded',function(){
             document.getElementById('conditions').innerHTML=conditions;  
             document.getElementById('fullDate').innerHTML=fullDate;         
         })    
-        .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!'+err);
+        .catch(err=>document.getElementById('errormessage').innerHTML='Invalid location,please try again!');
 
     }
   
