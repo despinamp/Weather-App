@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded',function(){
             incelsius=true;           
             getweatherinfo(locationvalue);
         }
+        else{
+            getweatherinfo(locationvalue);
+        }
     }
 
     //celsius to farenheit
@@ -67,6 +70,9 @@ document.addEventListener('DOMContentLoaded',function(){
             incelsius=false; 
             getweatherinfo(locationvalue);         
         
+        }
+        else{
+            getweatherinfo(locationvalue);
         }
 
     }   
